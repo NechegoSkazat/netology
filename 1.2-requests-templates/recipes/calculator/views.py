@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from termcolor import colored
 
 DATA = {
     'omlet': {
@@ -18,6 +19,20 @@ DATA = {
     },
     # можете добавить свои рецепты ;)
 }
+
+
+def calculator(request, recipe_name):
+    recipe = DATA.get(recipe_name).copy()
+    servings = int(request.GET.get('servings', 1))
+    for key in recipe:
+        recipe[key] *= servings
+    print(colored(recipe, 'red'))
+    context = {
+        'recipe': recipe
+    }
+
+    return render(request, 'calculator/index.html', context)
+
 
 # Напишите ваш обработчик. Используйте DATA как источник данных
 # Результат - render(request, 'calculator/index.html', context)
