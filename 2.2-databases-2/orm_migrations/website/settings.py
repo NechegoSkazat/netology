@@ -76,6 +76,8 @@ DATABASES = {
         'NAME': 'netology_orm_migrations',
         'HOST': '127.0.0.1',
         'PORT': '5432',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres'
     }
 }
 
@@ -131,3 +133,6 @@ try:
 except ImportError:
     pass
 
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+LANGUAGE_CODE = 'ru'
