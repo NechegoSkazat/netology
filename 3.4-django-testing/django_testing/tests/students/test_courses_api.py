@@ -30,12 +30,13 @@ def students():
 @pytest.mark.django_db
 def test_get_one_course(client, courses_factory, students):
     courses = courses_factory()
+    course_id = courses.id
 
-    response = client.get('/api/v1/courses/')
+    response = client.get('/api/v1/courses/'+str(course_id)+'/')
 
     assert response.status_code == 200
     data = response.json()
-    assert data[0]['name'] == courses.name
+    assert data['name'] == courses.name
 
 
 @pytest.mark.django_db
@@ -77,12 +78,13 @@ def test_name_filter(client, courses_factory, students):
 
 @pytest.mark.django_db
 def test_create_course(client, courses_factory, students):
-    Course.objects.create(id='10', name='DjangoCourse')
 
-    response = client.get('/api/v1/courses/', id='10')
+    post_response = client.post('/api/v1/courses/', data={'name': 'DjangoCourse'})
 
-    assert response.status_code == 200
-    data = response.json()
+    assert post_response.status_code == 201
+    get_response = client.get('/api/v1/courses/')
+    data = get_response.json()
+    assert get_response.status_code == 200
     assert data[0]['name'] == 'DjangoCourse'
 
 
